@@ -5,7 +5,7 @@ from django.db.models import Sum
 
 from courses.models import GradeComponent
 from tasks.models import Task
-
+     
 
 class CourseTaskForm(forms.ModelForm):
     class Meta:
