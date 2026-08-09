@@ -1,0 +1,585 @@
+{% include "header.html" %}
+
+<main>
+    <!-- القسم الرئيسي -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <span class="hero-badge">
+                        <span aria-hidden="true">✨</span>
+                        نظّم يومك وحقق أهدافك
+                    </span>
+
+                    <h1 class="hero-title">
+                        حوّل مهامك إلى
+                        <span>إنجازات يومية</span>
+                    </h1>
+
+                    <p class="hero-description">
+                        TaskFlow يساعدك على تنظيم مهامك، متابعة تقدمك
+                        وإدارة وقتك من خلال واجهة عربية بسيطة وسريعة.
+                    </p>
+
+                    <div class="hero-actions">
+                        <a class="btn btn-primary" href="/register/">
+                            ابدأ مجانًا
+
+                            <span class="icon" aria-hidden="true">
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                >
+                                    <path d="M19 12H5"></path>
+                                    <path d="M12 19l-7-7 7-7"></path>
+                                </svg>
+                            </span>
+                        </a>
+
+                        <a class="btn btn-outline" href="#features">
+                            استكشف المميزات
+                        </a>
+                    </div>
+
+                    <div class="hero-note">
+                        <span>
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                            >
+                                <path d="M20 6L9 17l-5-5"></path>
+                            </svg>
+
+                            لا تحتاج بطاقة بنكية
+                        </span>
+
+                        <span>
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                            >
+                                <path d="M20 6L9 17l-5-5"></path>
+                            </svg>
+
+                            إعداد الحساب خلال دقيقة
+                        </span>
+                    </div>
+                </div>
+
+                <!-- نموذج لوحة التحكم -->
+                <div class="dashboard-preview">
+                    <div class="preview-header">
+                        <div>
+                            <div class="preview-title">
+                                مهام اليوم
+                            </div>
+
+                            <div class="preview-date" id="currentDate">
+                                جاري تحميل التاريخ...
+                            </div>
+                        </div>
+
+                        <span class="section-badge">
+                            4 مهام
+                        </span>
+                    </div>
+
+                    <div class="preview-progress">
+                        <div class="progress-top">
+                            <div>
+                                <div class="progress-label">
+                                    نسبة الإنجاز
+                                </div>
+
+                                <div class="progress-value">
+                                    72%
+                                </div>
+                            </div>
+
+                            <span aria-hidden="true">🎯</span>
+                        </div>
+
+                        <div
+                            class="progress-track"
+                            role="progressbar"
+                            aria-label="نسبة إنجاز المهام"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                            aria-valuenow="72"
+                        >
+                            <div class="progress-fill"></div>
+                        </div>
+                    </div>
+
+                    <div class="task-list">
+                        <article class="task-item">
+                            <span class="task-check completed" aria-hidden="true">
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="3"
+                                >
+                                    <path d="M20 6L9 17l-5-5"></path>
+                                </svg>
+                            </span>
+
+                            <div>
+                                <h3 class="task-name">
+                                    مراجعة تقرير المشروع
+                                </h3>
+
+                                <p class="task-category">
+                                    العمل
+                                </p>
+                            </div>
+
+                            <span class="task-status status-done">
+                                مكتملة
+                            </span>
+                        </article>
+
+                        <article class="task-item">
+                            <span class="task-check" aria-hidden="true"></span>
+
+                            <div>
+                                <h3 class="task-name">
+                                    حضور محاضرة هندسة البرمجيات
+                                </h3>
+
+                                <p class="task-category">
+                                    الدراسة
+                                </p>
+                            </div>
+
+                            <span class="task-status status-high">
+                                أولوية عالية
+                            </span>
+                        </article>
+
+                        <article class="task-item">
+                            <span class="task-check" aria-hidden="true"></span>
+
+                            <div>
+                                <h3 class="task-name">
+                                    إنهاء تصميم واجهة التطبيق
+                                </h3>
+
+                                <p class="task-category">
+                                    المشروع
+                                </p>
+                            </div>
+
+                            <span class="task-status status-medium">
+                                متوسطة
+                            </span>
+                        </article>
+
+                        <article class="task-item">
+                            <span class="task-check completed" aria-hidden="true">
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="3"
+                                >
+                                    <path d="M20 6L9 17l-5-5"></path>
+                                </svg>
+                            </span>
+
+                            <div>
+                                <h3 class="task-name">
+                                    ممارسة الرياضة
+                                </h3>
+
+                                <p class="task-category">
+                                    شخصي
+                                </p>
+                            </div>
+
+                            <span class="task-status status-done">
+                                مكتملة
+                            </span>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- الإحصائيات -->
+    <section class="stats" aria-label="إحصائيات المنصة">
+        <div class="container">
+            <div class="stats-grid">
+                <article class="stat-card">
+                    <div class="stat-number" data-count="1200">
+                        0
+                    </div>
+
+                    <div class="stat-label">
+                        مستخدم نشط
+                    </div>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-number" data-count="8500">
+                        0
+                    </div>
+
+                    <div class="stat-label">
+                        مهمة مكتملة
+                    </div>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-number" data-count="98" data-suffix="%">
+                        0
+                    </div>
+
+                    <div class="stat-label">
+                        رضا المستخدمين
+                    </div>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-number" data-count="24" data-suffix="/7">
+                        0
+                    </div>
+
+                    <div class="stat-label">
+                        متاح دائمًا
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="overview-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">
+                    تجربة منسقة
+                </span>
+
+                <h2 class="section-title">
+                    لوحة عملك اليومية
+                </h2>
+
+                <p class="section-description">
+                    تواصل مع مهامك، وحدد أولوياتك، وراجع التقدم في
+                    واجهة تساعدك على الإنجاز بسرعة.
+                </p>
+            </div>
+
+            <div class="overview-grid">
+                <article class="overview-card">
+                    <span class="overview-icon" aria-hidden="true">
+                        ✅
+                    </span>
+                    <h3>
+                        المهام الحالية
+                    </h3>
+                    <p>
+                        راقب قائمة مهامك المفتوحة وخصّص وقتًا واضحًا
+                        لإنجازها دون تشتت.
+                    </p>
+                    <a class="overview-link" href="/tasks/">
+                        عرض المهام
+                    </a>
+                </article>
+
+                <article class="overview-card">
+                    <span class="overview-icon" aria-hidden="true">
+                        📚
+                    </span>
+                    <h3>
+                        الكورسات والدروس
+                    </h3>
+                    <p>
+                        تابع الدروس والمحتوى التعليمي المرتبط بنشاطاتك
+                        وتعلم بطريقة منظمة.
+                    </p>
+                    <a class="overview-link" href="/courses/">
+                        استعرض الكورسات
+                    </a>
+                </article>
+
+                <article class="overview-card">
+                    <span class="overview-icon" aria-hidden="true">
+                        🔔
+                    </span>
+                    <h3>
+                        التنبيهات
+                    </h3>
+                    <p>
+                        تذكير فوري بالمهام القادمة، والأنشطة التي تحتاج
+                        إلى متابعة لرفع الكفاءة.
+                    </p>
+                    <a class="overview-link" href="/notifications/">
+                        مشاهدة التنبيهات
+                    </a>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- المميزات -->
+    <section class="section" id="features">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">
+                    لماذا TaskFlow؟
+                </span>
+
+                <h2 class="section-title">
+                    كل ما تحتاج إليه لإدارة مهامك
+                </h2>
+
+                <p class="section-description">
+                    أدوات عملية تساعدك على ترتيب أولوياتك والوصول إلى
+                    أهدافك بأقل مجهود.
+                </p>
+            </div>
+
+            <div class="features-grid">
+                <article class="feature-card">
+                    <div class="feature-icon">
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        >
+                            <path d="M9 11l3 3L22 4"></path>
+                            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                        </svg>
+                    </div>
+
+                    <h3 class="feature-title">
+                        إدارة سهلة للمهام
+                    </h3>
+
+                    <p class="feature-description">
+                        أضف مهامك وعدّلها وحدد أولوياتها وتاريخ إنجازها
+                        من واجهة واضحة وسريعة.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon green">
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        >
+                            <path d="M3 3v18h18"></path>
+                            <path d="M7 16l4-5 4 3 5-7"></path>
+                        </svg>
+                    </div>
+
+                    <h3 class="feature-title">
+                        متابعة مستوى التقدم
+                    </h3>
+
+                    <p class="feature-description">
+                        راقب المهام المكتملة ونسبة إنجازك اليومية
+                        لتطوير إنتاجيتك باستمرار.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon orange">
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        >
+                            <circle cx="12" cy="12" r="9"></circle>
+                            <path d="M12 7v5l3 2"></path>
+                        </svg>
+                    </div>
+
+                    <h3 class="feature-title">
+                        تذكيرات في الوقت المناسب
+                    </h3>
+
+                    <p class="feature-description">
+                        احصل على تنبيهات للمهام المهمة حتى لا يفوتك
+                        أي موعد أو التزام.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon green">
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        >
+                            <rect x="3" y="4" width="18" height="17" rx="2"></rect>
+                            <path d="M8 2v4"></path>
+                            <path d="M16 2v4"></path>
+                            <path d="M3 10h18"></path>
+                        </svg>
+                    </div>
+
+                    <h3 class="feature-title">
+                        تنظيم حسب التاريخ
+                    </h3>
+
+                    <p class="feature-description">
+                        رتّب المهام اليومية والأسبوعية واعرضها وفق
+                        مواعيدها بطريقة منظمة.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon">
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        >
+                            <path d="M12 2l3 7 7 .5-5.4 4.6L18 22l-6-4-6 4 1.4-7.9L2 9.5 9 9z"></path>
+                        </svg>
+                    </div>
+
+                    <h3 class="feature-title">
+                        تحديد الأولويات
+                    </h3>
+
+                    <p class="feature-description">
+                        صنّف المهام إلى عالية ومتوسطة ومنخفضة الأهمية
+                        وابدأ بما يستحق تركيزك.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon orange">
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        >
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            <path d="M9 12l2 2 4-4"></path>
+                        </svg>
+                    </div>
+
+                    <h3 class="feature-title">
+                        بيانات آمنة
+                    </h3>
+
+                    <p class="feature-description">
+                        نستخدم ممارسات آمنة لحماية حسابك ومعلومات
+                        المهام الخاصة بك.
+                    </p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- كيفية العمل -->
+    <section
+        class="section"
+        id="how-it-works"
+        style="background: #ffffff;"
+    >
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">
+                    ثلاث خطوات بسيطة
+                </span>
+
+                <h2 class="section-title">
+                    ابدأ بتنظيم يومك الآن
+                </h2>
+
+                <p class="section-description">
+                    أنشئ حسابك، أضف مهامك، ثم تابع تقدمك يومًا بعد يوم.
+                </p>
+            </div>
+
+            <div class="features-grid">
+                <article class="feature-card">
+                    <div class="feature-icon">
+                        <strong>1</strong>
+                    </div>
+
+                    <h3 class="feature-title">
+                        أنشئ حسابك
+                    </h3>
+
+                    <p class="feature-description">
+                        سجّل بياناتك الأساسية للوصول إلى لوحة التحكم
+                        الخاصة بك.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon green">
+                        <strong>2</strong>
+                    </div>
+
+                    <h3 class="feature-title">
+                        أضف مهامك
+                    </h3>
+
+                    <p class="feature-description">
+                        اكتب المهمة وحدد تاريخها وتصنيفها ومستوى
+                        الأولوية المناسب.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon orange">
+                        <strong>3</strong>
+                    </div>
+
+                    <h3 class="feature-title">
+                        تابع إنجازك
+                    </h3>
+
+                    <p class="feature-description">
+                        أكمل المهام وراقب تقدمك حتى تحقق جميع أهدافك.
+                    </p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- دعوة إنشاء الحساب -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-box">
+                <div class="cta-content">
+                    <h2 class="cta-title">
+                        جاهز لتنظيم يومك بطريقة أفضل؟
+                    </h2>
+
+                    <p class="cta-description">
+                        أنشئ حسابك الآن وابدأ بتحويل قائمة مهامك إلى
+                        خطوات واضحة وقابلة للإنجاز.
+                    </p>
+                </div>
+
+                <a class="btn" href="/register/">
+                    أنشئ حسابًا مجانيًا
+                </a>
+            </div>
+        </div>
+    </section>
+</main>
+
+{% include "footer.html" %}

@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="TaskFlow - نظّم موادك ودرجاتك ومواعيدك الدراسية">
+    <title>{% block title %}TaskFlow{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'accounts/auth.css' %}">
+</head>
+<body>
+    <main class="auth-page">
+        <section class="auth-shell" aria-label="{% block page_label %}الدخول إلى TaskFlow{% endblock %}">
+            <aside class="brand-panel">
+                <div class="brand-glow brand-glow-one"></div>
+                <div class="brand-glow brand-glow-two"></div>
+
+                <a class="brand" href="/" aria-label="العودة إلى الصفحة الرئيسية">
+                    <span class="brand-mark" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M7 12.5 10.2 16 17.5 8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </span>
+                    <span>Task<span>Flow</span></span>
+                </a>
+
+                <div class="brand-copy">
+                    <span class="eyebrow">مساحتك الأكاديمية الذكية</span>
+                    <h1>رتّب دراستك،<br><span>واصنع تفوّقك.</span></h1>
+                    <p>كل موادك ودرجاتك ومواعيد اختباراتك في مكان واحد، واضح وسهل الوصول.</p>
+                </div>
+
+                <div class="feature-list" aria-label="مميزات المنصة">
+                    <div class="feature-item">
+                        <span class="feature-icon" aria-hidden="true">✓</span>
+                        <span><strong>درجاتك بوضوح</strong> تابع مجموعك والمتبقي في كل مادة.</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon" aria-hidden="true">✓</span>
+                        <span><strong>مواعيدك أمامك</strong> لا يفوتك كويز أو واجب أو اختبار.</span>
+                    </div>
+                </div>
+
+                <p class="brand-note">خطوة صغيرة اليوم، تصنع فرقًا كبيرًا في نهاية الفصل.</p>
+            </aside>
+
+            <section class="form-panel">
+                <a class="mobile-brand brand" href="/" aria-label="العودة إلى الصفحة الرئيسية">
+                    <span class="brand-mark" aria-hidden="true">✓</span>
+                    <span>Task<span>Flow</span></span>
+                </a>
+
+                <div class="form-wrap">
+                    {% if messages %}
+                        <div class="messages" role="status">
+                            {% for message in messages %}
+                                <div class="message {{ message.tags }}">{{ message }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    {% block form_content %}{% endblock %}
+                </div>
+
+                <a class="back-home" href="/">
+                    <span aria-hidden="true">←</span>
+                    العودة إلى الصفحة الرئيسية
+                </a>
+            </section>
+        </section>
+    </main>
+</body>
+</html>

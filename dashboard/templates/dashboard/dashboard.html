@@ -1,0 +1,162 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة الطالب | TaskFlow</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'dashboard/dashboard.css' %}">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <a class="brand" href="/">
+                <span class="brand-mark">✓</span>
+                <span>Task<span>Flow</span></span>
+            </a>
+
+            <nav class="side-nav" aria-label="أقسام لوحة الطالب">
+                <a class="nav-item active" href="#overview">
+                    <span class="nav-icon">⌂</span><span>نظرة عامة</span>
+                </a>
+                <a class="nav-item" href="#register-course">
+                    <span class="nav-icon">＋</span><span>تسجيل مادة</span>
+                </a>
+                <a class="nav-item" href="#registered-courses">
+                    <span class="nav-icon">▤</span><span>المواد المسجلة</span>
+                    <span class="nav-count">{{ active_courses_count }}</span>
+                </a>
+                <a class="nav-item" href="#upcoming-dates">
+                    <span class="nav-icon">◷</span><span>المواعيد القادمة</span>
+                    <span class="nav-count">{{ upcoming_tasks_count }}</span>
+                </a>
+                <a class="nav-item" href="#past-dates">
+                    <span class="nav-icon">↶</span><span>المواعيد السابقة</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-tip">
+                <span>✦</span>
+                <strong>نصيحة اليوم</strong>
+                <p>قسّم مهامك الكبيرة إلى خطوات صغيرة يسهل إنجازها.</p>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div>
+                    <span class="date-label">{{ today|date:"l، j F Y" }}</span>
+                    <h1>أهلًا {{ request.user.first_name|default:request.user.username }} 👋</h1>
+                    <p>هذه نظرة سريعة على رحلتك الدراسية.</p>
+                </div>
+                <div class="profile-chip">
+                    <span class="avatar">{{ request.user.first_name|default:request.user.username|slice:":1"|upper }}</span>
+                    <span><strong>{{ request.user.get_full_name|default:request.user.username }}</strong><small>طالب</small></span>
+                </div>
+            </header>
+
+            {% if messages %}
+                <div class="messages" role="status">
+                    {% for message in messages %}<div class="message {{ message.tags }}">{{ message }}</div>{% endfor %}
+                </div>
+            {% endif %}
+
+            <section id="overview" class="stats-grid">
+                <article class="stat-card blue">
+                    <span class="stat-icon">▤</span>
+                    <div><strong>{{ active_courses_count }}</strong><span>مادة مسجلة</span></div>
+                </article>
+                <article class="stat-card green">
+                    <span class="stat-icon">◷</span>
+                    <div><strong>{{ upcoming_tasks_count }}</strong><span>موعد قادم</span></div>
+                </article>
+                <article class="stat-card violet">
+                    <span class="stat-icon">✓</span>
+                    <div><strong>{{ completed_tasks_count }}</strong><span>مهمة مكتملة</span></div>
+                </article>
+            </section>
+
+            <section id="register-course" class="content-card register-card">
+                <div class="section-heading">
+                    <div><span class="section-kicker">أضف مادة جديدة</span><h2>تسجيل المواد</h2><p>سجّل المادة لتبدأ بترتيب درجاتها ومواعيدها.</p></div>
+                    <span class="heading-icon">＋</span>
+                </div>
+
+                <form method="post" class="course-form" novalidate>
+                    {% csrf_token %}
+                    {% if form.non_field_errors %}<div class="form-alert">{{ form.non_field_errors }}</div>{% endif %}
+                    <div class="form-grid">
+                        <div class="field span-2"><label for="{{ form.name.id_for_label }}">اسم المادة</label>{{ form.name }}{% for error in form.name.errors %}<small>{{ error }}</small>{% endfor %}</div>
+                        <div class="field"><label for="{{ form.code.id_for_label }}">رمز المادة</label>{{ form.code }}{% for error in form.code.errors %}<small>{{ error }}</small>{% endfor %}</div>
+                        <div class="field"><label for="{{ form.semester.id_for_label }}">الفصل الدراسي</label>{{ form.semester }}{% for error in form.semester.errors %}<small>{{ error }}</small>{% endfor %}</div>
+                        <div class="field"><label for="{{ form.academic_year.id_for_label }}">السنة الدراسية</label>{{ form.academic_year }}{% for error in form.academic_year.errors %}<small>{{ error }}</small>{% endfor %}</div>
+                        <div class="field color-field"><label for="{{ form.color.id_for_label }}">لون المادة</label>{{ form.color }}{% for error in form.color.errors %}<small>{{ error }}</small>{% endfor %}</div>
+                        <div class="field span-2"><label for="{{ form.description.id_for_label }}">وصف اختياري</label>{{ form.description }}{% for error in form.description.errors %}<small>{{ error }}</small>{% endfor %}</div>
+                    </div>
+                    <div class="form-footer">
+                        <label class="active-check">{{ form.is_active }} <span>إظهار المادة ضمن موادي الحالية</span></label>
+                        <button type="submit">تسجيل المادة <span>←</span></button>
+                    </div>
+                </form>
+            </section>
+
+            <section id="registered-courses" class="dashboard-section">
+                <div class="section-heading simple"><div><span class="section-kicker">فصلك الحالي</span><h2>المواد المسجلة</h2></div><span class="section-total">{{ active_courses_count }} مواد</span></div>
+                {% if courses %}
+                    <div class="courses-grid">
+                        {% for course in courses %}
+                            <a class="course-card" href="{% url 'dashboard:course_detail' course.id %}" style="--course-color: {{ course.color }}">
+                                <span class="course-accent"></span>
+                                <span class="course-icon">{{ course.name|slice:":1" }}</span>
+                                <span class="course-info"><strong>{{ course.name }}</strong><small>{{ course.code|default:"بدون رمز" }} · {{ course.get_semester_display }}</small></span>
+                                <span class="course-arrow">←</span>
+                            </a>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="empty-state"><span>▤</span><h3>لا توجد مواد مسجلة بعد</h3><p>ابدأ بإضافة أول مادة من النموذج أعلاه.</p><a href="#register-course">تسجيل مادة الآن</a></div>
+                {% endif %}
+            </section>
+
+            <section id="upcoming-dates" class="dashboard-section">
+                <div class="section-heading simple"><div><span class="section-kicker">كن مستعدًا</span><h2>المواعيد القادمة</h2></div><span class="section-total">{{ upcoming_tasks_count }} مواعيد</span></div>
+                {% if upcoming_tasks %}
+                    <div class="timeline">
+                        {% for task in upcoming_tasks %}
+                            <article class="timeline-item upcoming">
+                                <time datetime="{{ task.due_date|date:'c' }}"><strong>{{ task.due_date|date:"d" }}</strong><span>{{ task.due_date|date:"M" }}</span></time>
+                                <span class="timeline-dot"></span>
+                                <div class="timeline-content"><span class="task-type">{{ task.get_task_type_display }}</span><h3>{{ task.title }}</h3><p>{{ task.course.name }} · {{ task.due_date|date:"g:i A" }}</p></div>
+                                <span class="status-badge {{ task.priority }}">{{ task.get_priority_display }}</span>
+                            </article>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="empty-state compact"><span>✓</span><h3>جدولك هادئ حاليًا</h3><p>لا توجد اختبارات أو واجبات قادمة مسجلة.</p></div>
+                {% endif %}
+            </section>
+
+            <section id="past-dates" class="dashboard-section">
+                <div class="section-heading simple"><div><span class="section-kicker">سجلك الدراسي</span><h2>المواعيد السابقة</h2></div></div>
+                {% if past_tasks %}
+                    <div class="timeline past-list">
+                        {% for task in past_tasks %}
+                            <article class="timeline-item past">
+                                <time datetime="{{ task.due_date|date:'c' }}"><strong>{{ task.due_date|date:"d" }}</strong><span>{{ task.due_date|date:"M" }}</span></time>
+                                <span class="timeline-dot"></span>
+                                <div class="timeline-content"><span class="task-type">{{ task.get_task_type_display }}</span><h3>{{ task.title }}</h3><p>{{ task.course.name }} · {{ task.due_date|date:"Y/m/d" }}</p></div>
+                                <span class="status-badge neutral">{{ task.get_status_display }}</span>
+                            </article>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="empty-state compact"><span>↶</span><h3>لا توجد مواعيد سابقة</h3><p>ستظهر هنا المواعيد التي انتهى وقتها.</p></div>
+                {% endif %}
+            </section>
+        </main>
+    </div>
+</body>
+</html>

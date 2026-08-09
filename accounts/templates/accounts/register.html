@@ -1,0 +1,69 @@
+{% extends "accounts/auth_base.html" %}
+
+{% block title %}إنشاء حساب | TaskFlow{% endblock %}
+{% block page_label %}إنشاء حساب جديد في TaskFlow{% endblock %}
+
+{% block form_content %}
+    <header class="form-header">
+        <span class="form-kicker">ابدأ رحلتك الآن</span>
+        <h2>أنشئ حسابك</h2>
+        <p>دقائق قليلة تفصلك عن فصل دراسي أكثر تنظيمًا.</p>
+    </header>
+
+    <form method="post" class="auth-form register-form" novalidate>
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div class="form-alert" role="alert">{{ form.non_field_errors }}</div>
+        {% endif %}
+
+        <div class="fields-grid">
+            <div class="field-group{% if form.first_name.errors %} has-error{% endif %}">
+                <label for="{{ form.first_name.id_for_label }}">الاسم الأول</label>
+                {{ form.first_name }}
+                {% for error in form.first_name.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+            </div>
+            <div class="field-group{% if form.last_name.errors %} has-error{% endif %}">
+                <label for="{{ form.last_name.id_for_label }}">اسم العائلة</label>
+                {{ form.last_name }}
+                {% for error in form.last_name.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+            </div>
+        </div>
+
+        <div class="field-group{% if form.username.errors %} has-error{% endif %}">
+            <label for="{{ form.username.id_for_label }}">اسم المستخدم</label>
+            {{ form.username }}
+            {% for error in form.username.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+        </div>
+
+        <div class="field-group{% if form.email.errors %} has-error{% endif %}">
+            <label for="{{ form.email.id_for_label }}">البريد الإلكتروني</label>
+            {{ form.email }}
+            {% for error in form.email.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+        </div>
+
+        <div class="fields-grid">
+            <div class="field-group{% if form.password1.errors %} has-error{% endif %}">
+                <label for="{{ form.password1.id_for_label }}">كلمة المرور</label>
+                {{ form.password1 }}
+                {% for error in form.password1.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+            </div>
+            <div class="field-group{% if form.password2.errors %} has-error{% endif %}">
+                <label for="{{ form.password2.id_for_label }}">تأكيد كلمة المرور</label>
+                {{ form.password2 }}
+                {% for error in form.password2.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+            </div>
+        </div>
+
+        <p class="terms">بإنشاء الحساب أنت توافق على شروط الاستخدام وسياسة الخصوصية.</p>
+
+        <button class="submit-btn" type="submit">
+            إنشاء حسابي
+            <span aria-hidden="true">←</span>
+        </button>
+    </form>
+
+    <div class="form-switch">
+        لديك حساب بالفعل؟ <a href="{% url 'accounts:login' %}">سجّل دخولك</a>
+    </div>
+{% endblock %}

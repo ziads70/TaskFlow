@@ -1,0 +1,104 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ course.name }} | TaskFlow</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'dashboard/course-detail.css' %}">
+</head>
+<body style="--course-color:{{ course.color }}">
+    <header class="site-header">
+        <a class="brand" href="/"><span class="brand-mark">✓</span><span>Task<span>Flow</span></span></a>
+        <a class="back-link" href="{% url 'dashboard:dashboard' %}"><span>→</span> العودة إلى لوحة الطالب</a>
+    </header>
+
+    <main class="page-wrap">
+        {% if messages %}<div class="messages">{% for message in messages %}<div class="message">{{ message }}</div>{% endfor %}</div>{% endif %}
+
+        <section class="course-hero">
+            <span class="hero-glow"></span>
+            <div class="course-symbol">{{ course.name|slice:":1" }}</div>
+            <div class="hero-copy">
+                <span class="course-code">{{ course.code|default:"مادة دراسية" }}</span>
+                <h1>{{ course.name }}</h1>
+                <p>{{ course.get_semester_display }}{% if course.academic_year %} · {{ course.academic_year }}{% endif %}</p>
+            </div>
+            <div class="hero-stats">
+                <div><strong>{{ upcoming_tasks|length }}</strong><span>موعد قادم</span></div>
+                <div><strong>{{ allocated_grade|floatformat:"-2" }}%</strong><span>تم توزيعه</span></div>
+                <div><strong>{{ earned_grade|floatformat:"-2" }}</strong><span>درجتي الحالية</span></div>
+            </div>
+        </section>
+
+        <nav class="course-nav" aria-label="أقسام المادة">
+            <a href="#add-date">إضافة موعد</a>
+            <a href="#grades">توزيع الدرجات</a>
+            <a href="#upcoming">المواعيد القادمة</a>
+            <a href="#past">المواعيد السابقة</a>
+        </nav>
+
+        <div class="workspace-grid">
+            <section id="add-date" class="panel form-panel">
+                <div class="panel-heading"><div><span class="kicker">نظّم جدولك</span><h2>إضافة موعد</h2><p>أضف كويزًا أو اختبارًا أو واجبًا لهذه المادة.</p></div><span class="panel-icon">◷</span></div>
+                <form method="post" class="data-form" novalidate>
+                    {% csrf_token %}<input type="hidden" name="action" value="add_task">
+                    {% if task_form.non_field_errors %}<div class="form-error wide">{{ task_form.non_field_errors }}</div>{% endif %}
+                    <div class="field wide"><label for="{{ task_form.title.id_for_label }}">عنوان الموعد</label>{{ task_form.title }}{% for error in task_form.title.errors %}<small>{{ error }}</small>{% endfor %}</div>
+                    <div class="field"><label for="{{ task_form.task_type.id_for_label }}">نوع الموعد</label>{{ task_form.task_type }}{% for error in task_form.task_type.errors %}<small>{{ error }}</small>{% endfor %}</div>
+                    <div class="field"><label for="{{ task_form.due_date.id_for_label }}">التاريخ والوقت</label>{{ task_form.due_date }}{% for error in task_form.due_date.errors %}<small>{{ error }}</small>{% endfor %}</div>
+                    <div class="field"><label for="{{ task_form.priority.id_for_label }}">الأولوية</label>{{ task_form.priority }}{% for error in task_form.priority.errors %}<small>{{ error }}</small>{% endfor %}</div>
+                    <div class="field wide"><label for="{{ task_form.description.id_for_label }}">ملاحظات اختيارية</label>{{ task_form.description }}{% for error in task_form.description.errors %}<small>{{ error }}</small>{% endfor %}</div>
+                    <button class="primary-btn wide" type="submit">حفظ الموعد <span>←</span></button>
+                </form>
+            </section>
+
+            <section id="grades" class="panel form-panel">
+                <div class="panel-heading"><div><span class="kicker">تابع تحصيلك</span><h2>توزيع الدرجات</h2><p>أضف كل بند والدرجة المخصصة له.</p></div><span class="panel-icon">٪</span></div>
+                <div class="grade-progress">
+                    <div><span>التوزيع المكتمل</span><strong>{{ allocated_grade|floatformat:"-2" }} من 100</strong></div>
+                    <div class="progress-track"><span style="width:{% if allocated_grade > 100 %}100{% else %}{{ allocated_grade }}{% endif %}%"></span></div>
+                    <small>المتبقي: {{ remaining_grade|floatformat:"-2" }} درجة</small>
+                </div>
+                <form method="post" class="data-form grade-form" novalidate>
+                    {% csrf_token %}<input type="hidden" name="action" value="add_grade">
+                    {% if grade_form.non_field_errors %}<div class="form-error wide">{{ grade_form.non_field_errors }}</div>{% endif %}
+                    <div class="field wide"><label for="{{ grade_form.name.id_for_label }}">بند التقييم</label>{{ grade_form.name }}{% for error in grade_form.name.errors %}<small>{{ error }}</small>{% endfor %}</div>
+                    <div class="field"><label for="{{ grade_form.weight.id_for_label }}">الدرجة المخصصة</label>{{ grade_form.weight }}{% for error in grade_form.weight.errors %}<small>{{ error }}</small>{% endfor %}</div>
+                    <div class="field"><label for="{{ grade_form.earned_score.id_for_label }}">درجتي (اختياري)</label>{{ grade_form.earned_score }}{% for error in grade_form.earned_score.errors %}<small>{{ error }}</small>{% endfor %}</div>
+                    <button class="primary-btn wide" type="submit">إضافة بند الدرجات <span>＋</span></button>
+                </form>
+            </section>
+        </div>
+
+        <section class="panel grade-table-panel">
+            <div class="panel-heading"><div><span class="kicker">تفاصيل التقييم</span><h2>بنود درجات المادة</h2></div><span class="total-pill">{{ grade_components|length }} بنود</span></div>
+            {% if grade_components %}
+                <div class="grade-table">
+                    <div class="table-row table-head"><span>البند</span><span>الدرجة المخصصة</span><span>درجتي</span><span>الحالة</span></div>
+                    {% for component in grade_components %}
+                        <div class="table-row"><strong>{{ component.name }}</strong><span>{{ component.weight|floatformat:"-2" }}</span><span>{% if component.earned_score is not None %}{{ component.earned_score|floatformat:"-2" }}{% else %}—{% endif %}</span><span class="grade-status {% if component.earned_score is not None %}recorded{% endif %}">{% if component.earned_score is not None %}مرصودة{% else %}بانتظار الدرجة{% endif %}</span></div>
+                    {% endfor %}
+                </div>
+            {% else %}<div class="empty"><span>٪</span><h3>لم تُضف بنود الدرجات بعد</h3><p>أضف توزيع المادة مثل: كويزات 10، ميد 30، نهائي 40.</p></div>{% endif %}
+        </section>
+
+        <div class="dates-grid">
+            <section id="upcoming" class="panel dates-panel">
+                <div class="panel-heading"><div><span class="kicker">استعد مبكرًا</span><h2>المواعيد القادمة</h2></div><span class="total-pill">{{ upcoming_tasks|length }}</span></div>
+                {% if upcoming_tasks %}<div class="date-list">{% for task in upcoming_tasks %}<article class="date-item"><time><strong>{{ task.due_date|date:"d" }}</strong><span>{{ task.due_date|date:"M" }}</span></time><div><span class="type-label">{{ task.get_task_type_display }}</span><h3>{{ task.title }}</h3><p>{{ task.due_date|date:"Y/m/d · g:i A" }}</p></div><span class="priority {{ task.priority }}">{{ task.get_priority_display }}</span></article>{% endfor %}</div>
+                {% else %}<div class="empty small"><span>✓</span><h3>لا توجد مواعيد قادمة</h3><p>أضف موعدك الأول من النموذج أعلاه.</p></div>{% endif %}
+            </section>
+
+            <section id="past" class="panel dates-panel">
+                <div class="panel-heading"><div><span class="kicker">الأرشيف</span><h2>المواعيد السابقة</h2></div><span class="total-pill">{{ past_tasks|length }}</span></div>
+                {% if past_tasks %}<div class="date-list past-list">{% for task in past_tasks %}<article class="date-item"><time><strong>{{ task.due_date|date:"d" }}</strong><span>{{ task.due_date|date:"M" }}</span></time><div><span class="type-label">{{ task.get_task_type_display }}</span><h3>{{ task.title }}</h3><p>{{ task.due_date|date:"Y/m/d · g:i A" }}</p></div><span class="priority neutral">{{ task.get_status_display }}</span></article>{% endfor %}</div>
+                {% else %}<div class="empty small"><span>↶</span><h3>لا توجد مواعيد سابقة</h3><p>ستظهر هنا المواعيد المنتهية تلقائيًا.</p></div>{% endif %}
+            </section>
+        </div>
+    </main>
+</body>
+</html>
